@@ -16,7 +16,8 @@
 2. Specify `Sender Name`
    - Go To Manage Jenkins -> Configure System -> Search for `Jenkins Location`
    - Set the name of `System Admin e-mail address`
-3. Specify Email Server Config
+3. For dummy SMTP Server, use website `https://mailspons.com/`
+4. Specify Email Server Config
    - Go To Manage Jenkins -> Configure System -> Search for `Extended E-mail Notification`
    - Enter the required Credentials, it can be found in SMTP server website
      - `SMTP server` eg. `smtp.mailspons.com`
