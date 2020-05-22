@@ -2,6 +2,7 @@
 
 - [DevOps - Jenkins Scripts](#devops---jenkins-scripts)
   - [Email Notification Script](#email-notification-script)
+    - [Configuring Email Settings](#configuring-email-settings)
     - [Pipeline code](#pipeline-code)
     - [Explanation](#explanation)
     - [Plugin Required](#plugin-required)
@@ -10,10 +11,24 @@
 - Contains a jenkins script to send email notification on build failure
 - A modular pipeline should that can be embeded in any other pipe line
 
+### Configuring Email Settings
+1. Install Plugin `Email Extension Plugin`
+2. Specify `Sender Name`
+   - Go To Manage Jenkins -> Configure System -> Search for `Jenkins Location`
+   - Set the name of `System Admin e-mail address`
+3. Specify Email Server Config
+   - Go To Manage Jenkins -> Configure System -> Search for `Extended E-mail Notification`
+   - Enter the required Credentials, it can be found in SMTP server website
+     - `SMTP server` eg. `smtp.mailspons.com`
+     - `Default Recipients` Default person to recieve the email
+     - Click on `Advanced` button, Tick the `Use SMTP Authentication Checkbox`
+     - Enter `User Name`, `Password`
+     - Enter the `SMTP port` eg. `587` Check email server docs if there is a different port number
+4. Click `Save`
+
 ### Pipeline code
 ```groovy
 node {
-    // config
     def to = emailextrecipients([
         [$class: 'CulpritsRecipientProvider'],
         [$class: 'DevelopersRecipientProvider'],
