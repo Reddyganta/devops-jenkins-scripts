@@ -1,6 +1,6 @@
-# DevOps Scripts
+# DevOps - Jenkins Scripts
 
-- [DevOps Scripts](#devops-scripts)
+- [DevOps - Jenkins Scripts](#devops---jenkins-scripts)
   - [Email Notification Script](#email-notification-script)
 
 ## Email Notification Script
