@@ -1,0 +1,15 @@
+// Scripted Approach - Simple Jenkins using Springs MVN
+node {
+    stage('Preparation') {
+        sh 'chmod +x mvnw'
+    }
+    stage('Compile') {
+        sh './mvnw compile'
+    }
+    stage('test') {
+        sh './mvnw test'
+    }
+    stage('Packge') {
+        sh './mvnw package'
+    }
+}

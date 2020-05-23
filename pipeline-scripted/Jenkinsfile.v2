@@ -1,0 +1,18 @@
+// Scripted Approach - Jenkins cript using Maven Plugin
+node {
+    stage ('Compile Stage') {
+        withMaven(maven : 'M3') {
+            sh'mvn clean compile'
+        }
+    }
+    stage ('Testing Stage') {
+        withMaven(maven : 'M3') {
+            sh'mvn test'
+        }
+    }
+    stage ('Package') {
+        withMaven(maven : 'M3') {
+            sh'mvn package'
+        }
+    }
+}

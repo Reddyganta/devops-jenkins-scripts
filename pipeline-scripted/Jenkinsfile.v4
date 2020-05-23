@@ -1,0 +1,61 @@
+// Scripted Approach - Jenkins using Email Support
+pipeline = {
+    def IMAGE = readMavenPom().getArtifactId()
+    def VERSION = readMavenPom().getVersion()
+
+    stage('Preparation') {
+        checkout scm
+        sh 'git rev-parse --short HEAD > .git/commit-id'
+        commit_id = readFile('.git/commit-id').trim()
+        sh 'chmod +x mvnw'
+    }
+    stage ('Compile Stage') {
+        sh'./mvnw clean compile'
+    }
+    stage ('Testing Stage') {
+        sh'./mvnw test'
+    }
+    stage ('Package Stage') {
+        sh'./mvnw package'
+        sh 'exit 1'
+    }
+    stage ('Build/Publish') {
+        docker.withRegistry('https://index.docker.io/v1/', 'docker') {
+            docker.build("gagandeep39/spring-jenkins-demo:${VERSION}", '.').push()
+        }
+    }
+    stage ('Deploy on this Server') {
+        sh 'docker stop spring-jenkins-demo || echo Container is not on'
+        sh 'docker container rm -f spring-jenkins-demo || echo Container doesnt exists'
+        docker.image('gagandeep39/spring-jenkins-demo:' + VERSION).run('-p 8081:8081 --name spring-jenkins-demo')
+        sh 'docker image prune -f'
+    }
+}
+
+postFailure = {
+    
+    def to = emailextrecipients([
+        [$class: 'CulpritsRecipientProvider'],
+        [$class: 'DevelopersRecipientProvider'],
+        [$class: 'RequesterRecipientProvider']
+    ])
+
+    currentBuild.result = 'FAILURE'
+    // set variables
+    def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+    def content = '${JELLY_SCRIPT,template="html"}'
+    // send email
+    if (to != null && !to.isEmpty()) {
+        emailext(body: content, mimeType: 'text/html',
+                replyTo: '$DEFAULT_REPLYTO', subject: subject,
+                to: to, attachLog: true )
+    }
+}
+node {
+    try {
+        pipeline()
+    }
+    catch (e) {
+        postFailure()
+    }
+}
