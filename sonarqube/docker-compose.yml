@@ -8,7 +8,7 @@ services:
     networks:
       - jenkins
     volumes:
-      - /var/xyz:/var/jenkins_home
+      - /my_jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     container_name: my-jenkins-container
   postgres:
