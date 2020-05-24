@@ -39,6 +39,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: userdb
+      # Run it in default network
+    network_mode: bridge
     volumes: 
       - /mysql_data:/var/lib/mysql
 
