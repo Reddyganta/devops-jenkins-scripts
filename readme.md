@@ -65,7 +65,7 @@ node {
   - `DevelopersRecipientProvider` developer whoe code failed
   - `CulpritsRecipientProvider` Manager
   - `RequesterRecipientProvider` Person who mnually executed the build
-- The mail be wont be sent if they are not specified in ettings
+- The mail be wont be sent if they are not specified in settings
 - Build is purposely made to fail in try block
 - Catch block is used to send the email
 - Subjects and Content is defined in catch block
